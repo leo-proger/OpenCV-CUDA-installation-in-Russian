@@ -5,7 +5,7 @@ Alternatively this is also a guide for building a standard OpenCV module for Pyt
 
 ## Sources and troubleshooting references
 
-The process is based on [this tutorial by Anindya](https://thinkinfi.com/install-opencv-gpu-with-cuda-for-windows-10/) for the step-by-step process with CMake GUI and [this tutorial by James Bowley](https://www.jamesbowley.co.uk/qmd/opencv_cuda_python_windows.html) for the process with command line CMake and some troubleshooting.
+The process is based on [this tutorial by Anindya](https://web.archive.org/web/20240728214837/https://thinkinfi.com/install-opencv-gpu-with-cuda-for-windows-10/) for the step-by-step process with CMake GUI and [this tutorial by James Bowley](https://www.jamesbowley.co.uk/qmd/opencv_cuda_python_windows.html) for the process with command line CMake and some troubleshooting.
 
 #### ImportError: DLL load failed while importing cv2: The specified module could not be found.
 
@@ -48,7 +48,7 @@ Make sure you have NumPy installed or install it with `pip install numpy`. Unins
 
 ### Visual Studio
 
-Download Visual Studio ([2019 version here](https://visualstudio.microsoft.com/fr/vs/older-downloads/#visual-studio-2019-and-other-products)) and install the build tools for C++ from the Visual Studio Installer.
+Download Visual Studio ([2019 version here](https://visualstudio.microsoft.com/vs/older-downloads/#visual-studio-2019-and-other-products)) and install the build tools for C++ from the Visual Studio Installer.
 
 ![setup_586tzl0ZlK](https://user-images.githubusercontent.com/28230243/166432249-2315dc23-3806-4da8-a164-3a2f826b50e0.png)
 
@@ -181,7 +181,7 @@ The problem is most likely linked to other libraries not loaded by Python _even 
 
 ##### Using the Dependency walker
 
-Opening the `cv2.cp38-win_amd64.pyd` with the dependency walker can get you a list of DLLs it is missing. However it will also list a ton of Microsoft DLLs (starting with API-MS-... or EXT-MS-...) that actually do not impact the import error. Then you can try to add manually the missing libraries and see if it solves the issue.
+Opening the `cv2.cp38-win_amd64.pyd` (or the .pyd file corresponding to the python version you're using) with the dependency walker can get you a list of DLLs it is missing. However it will also list a ton of Microsoft DLLs (starting with API-MS-... or EXT-MS-...) that actually do not impact the import error. Then you can try to add manually the missing libraries and see if it solves the issue.
 
 ##### Using Anaconda binaries
 
