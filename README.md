@@ -1,3 +1,5 @@
+Перевод в процессе...
+
 # OpenCV CUDA installation
 A save of the process needed to build manually OpenCV for Python 3 with CUDA bindings on Windows 10 and 11.
 
