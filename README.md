@@ -1,75 +1,74 @@
-Перевод в процессе...
+# Установка OpenCV CUDA
+Оригинал статьи - [OpenCV-CUDA-installation](https://github.com/chrismeunier/OpenCV-CUDA-installation). Это перевод инструкции с английского по сборке OpenCV для Python 3 с CUDA на Windows 11/10. Работает только с **видеокартами Nvidia**.
 
-# OpenCV CUDA installation
-A save of the process needed to build manually OpenCV for Python 3 with CUDA bindings on Windows 10 and 11.
+Также этот гайд подойдет, если вы просто хотите собрать модуль OpenCV для Python 3. Для этого пропустите параграфы, связанные с CUDA.
 
-Alternatively this is also a guide for building a standard OpenCV module for Python 3 if you omit all the CUDA related paragraphs.
+## Источники и ссылки по устранению неполадок
 
-## Sources and troubleshooting references
+Данная инструкция основана на [статье](https://web.archive.org/web/20240728214837/https://thinkinfi.com/install-opencv-gpu-with-cuda-for-windows-10/) от Anindya о пошаговой сборке с CMake GUI, а также на [статье](https://www.jamesbowley.co.uk/qmd/opencv_cuda_python_windows.html) от James Bowley по сборке с помощью консоли CMake и решениям некоторых проблем.
 
-The process is based on [this tutorial by Anindya](https://web.archive.org/web/20240728214837/https://thinkinfi.com/install-opencv-gpu-with-cuda-for-windows-10/) for the step-by-step process with CMake GUI and [this tutorial by James Bowley](https://www.jamesbowley.co.uk/qmd/opencv_cuda_python_windows.html) for the process with command line CMake and some troubleshooting.
+### Ошибка ImportError
 
-#### ImportError: DLL load failed while importing cv2: The specified module could not be found.
-
-Both of these tutorials should be enough for most people. **But** in some cases, even if the module was successfully installed in your Python installation, you may end up with this message when importing OpenCV with `import cv2`:
+Статей выше будет достаточно для большинства людей. **Но** в каких-то случаях, даже если модуль был успешно установлен в Python, вы все равно можете увидеть это сообщение, когда импортируете OpenCV через `import cv2`:
 ```
 ImportError: DLL load failed while importing cv2: The specified module could not be found.
 ```
+Этот случай подробно описан в разделе по устранению неполадок и почти полностью основан на [этом](https://github.com/opencv/opencv/issues/19972) большом GitHub issue.
+В общем, вся ваша сборка, вероятно, полностью удачна, может быть просто Python не смог прочесть переменные окружения.
 
-This case is detailed in the [troubleshooting section](README.md#check-install-and-troubleshooting) and is almost entirely based on [this quite extensive github issue](https://github.com/opencv/opencv/issues/19972). Basically your whole installation is likely completely successful, it may just be Python failing to read your environment variables.
+### Используемый софт и конфигурация ПК
 
-#### Hardware and software configuration used
+Протестировано на `Windows 10 20H2` с процессором `i7-10700 2.90ГГц` и видеокартой GeForce `RTX 2080 Ti`
 
-Tested on a Windows 10 20H2 machine with i7-10700 CPU @ 2.90GHz and GeForce RTX 2080 Ti.
+Софт:
+- Python 3.8.10
+- OpenCV 4.5.5
+- NumPy 1.21.6
+- CUDA toolkit v11.6
+- cuDNN v8.3.3
+- Visual Studio Community 2019 v16.11.13
+- CMake 3.19.1
+Все это делалось в апреле 2022 года
 
-Python 3.8.10, OpenCV 4.5.5, NumPy 1.21.6, CUDA toolkit v11.6, cuDNN v8.3.3, Visual Studio Community 2019 v16.11.13, CMake 3.19.1, all of this in April 2022.
+P.S.: в сентябре 2022 года все повторно проделано без проблем на таком же ПК, но уже на Windows 11, и на ноутбуке с процессором i5 и старым ГПУ Quadro. 
 
-Repeated in September 2022 with no problems on the same machine updated to Windows 11 and on another i5 laptop with an older Quadro GPU. I will not need to repeat an installation (with CUDA) for the foreseeable future, if something goes wrong please do keep me posted!
+P.P.S.: процесс успешно повторен в конце 2023 года (без CUDA) на ноутбуке (Windows 11, i7 8-го поколения, Intel UHD Graphics 620) с Python 3.10 и OpenCV 4.9.
 
-Repeated in late 2023 without problems (without CUDA) on a Windows 11 laptop (i7-8th gen, Intel UHD Graphics 620) with Python 3.10, OpenCV 4.9.
+P.P.P.S: в конце 2024 года все работает (с CUDA 11.6, Windows 11, Ryzen 5 5600x, RTX 2060 Super, Python 3.10, OpenCV 4.9.0)
 
-## Step-by-step installation process
+## Пошаговый процесс установки
 
-### Prerequisites
+### Требуемое ПО
 
-- Visual Studio with C++ build tools
-- [CUDA](https://developer.nvidia.com/cuda-downloads) according to your GPU
-- [cuDNN](https://developer.nvidia.com/rdp/cudnn-archive) corresponding to CUDA (free account creation needed to download)
-- Python 3 install
-- NumPy
-- OpenCV [from source](https://github.com/opencv/opencv/releases) and the matching version of OpenCV [contrib modules from source](https://github.com/opencv/opencv_contrib/tags)
-- [CMake](https://cmake.org/download/)
+### Python, NumPy и pip
 
-Check that your GPU is compatible with CUDA: [wikipedia.org/wiki/CUDA](https://en.wikipedia.org/wiki/CUDA#GPUs_supported).
+Установите Python 3.x любым удобным для вас способом ([оф. сайт](https://www.python.org/downloads/), [Anaconda](https://www.anaconda.com/download/success), магазин Майкрософт или создать виртуальное окружение).
 
-### Python, NumPy and pip
-
-Install a recent Python 3.x however you prefer (Python website, Anaconda, Windows store, create a virtual env...), but if you are here that's probably already done. This "tutorial" is done with a standard Python install, from the Python website with no virtual environment. For the particularities of an Anaconda installation look at [James Bowley's tutorial](https://www.jamesbowley.co.uk/qmd/opencv_cuda_python_windows.html).
-
-Make sure you have NumPy installed or install it with `pip install numpy`. Uninstall any OpenCV python module `pip uninstall opencv-python` or `pip uninstall opencv-contrib-python`. Delete the `YOUR_PYTHON_PATH/Lib/site-packages/cv2` folder for cleaning purposes.
+Убедитесь, что у вас установлен модуль NumPy, иначе сделайте это в консоли `pip install numpy`. Удалите все версии OpenCV `pip uninstall opencv-python` и `pip uninstall opencv-contrib-python`. Удалите папку `ВАШ_ПУТЬ_К_ПАПКЕ_С_PYTHON\Lib\site-packages\cv2` (Python обычно находится в `AppData\Local\Programs`)
 
 ### Visual Studio
 
-Download Visual Studio ([2019 version here](https://visualstudio.microsoft.com/vs/older-downloads/#visual-studio-2019-and-other-products)) and install the build tools for C++ from the Visual Studio Installer.
+Скачайте Visual Studio (желательно 2019 года, [ссылка](https://github.com/user-attachments/files/18280278/vs_Community.zip)) и выставите галочки как на скриншоте ниже.
 
-![setup_586tzl0ZlK](https://user-images.githubusercontent.com/28230243/166432249-2315dc23-3806-4da8-a164-3a2f826b50e0.png)
+![image](https://github.com/user-attachments/assets/b6b5681f-77b3-48cc-9b49-0ef9a155013f)
 
+### CUDA и cuDNN
 
-### CUDA and cuDNN
+Убедитесь, что ваша видеокарта поддерживает CUDA, и узнайте соответственно версию CUDA Toolkit [здесь](https://en.wikipedia.org/wiki/CUDA#GPUs_supported). Сначала находите поддерживаемую архитектуру (вторая таблица, колонка "Compute capability"), потом по зеленым квадратикам смотрите версию CUDA Toolkit для данной архитектуры (первая таблица, колонка CUDA SDK version).
+ 
+Скачайте и установите [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit-archive) в соответствии с вашей видеокартой. Или же проверьте, что это уже установлено по пути `C:\Program Files\NVIDIA GPU Computing Toolkit`.
 
-Download and install the latest [CUDA toolkit](https://developer.nvidia.com/cuda-downloads) compatible with your GPU ([see here](https://en.wikipedia.org/wiki/CUDA#GPUs_supported) for compatibility as well) or check you already have it installed in `C:\Program Files\NVIDIA GPU Computing Toolkit`.
+Аналогично для [cuDNN](https://developer.nvidia.com/rdp/cudnn-archive) согласно установленной версии CUDA Toolkit (для скачивания нужно зарегистрироваться)
 
-Idem for [cuDNN](https://developer.nvidia.com/rdp/cudnn-archive) with an intermediary step to create a NVIDIA developer account, fill up their survey etc.
+Проверьте, что добавились переменные окружения `CUDA_PATH` и `CUDA_PATH_Vxx_x`. Они должны указывать на путь, где установилась CUDA.
 
-Check in your environment variables that `CUDA_PATH` and `CUDA_PATH_Vxx_x` are here and pointing to your install path.
+Скопируйте все файлы в подпапках cuDNN (bin, include, lib/x64) в одноименные папки CUDA (путь по умолчанию - `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\vXX.X`)
 
-Copy the files in the cuDNN folders (under `C:\Program Files\NVIDIA\CUDNN\vX.X`) **bin**, **include** and **lib/x64** to the corresponding folders in your CUDA folder.
+### OpenCV и OpenCV contrib
 
-### OpenCV
+Скачайте и распакуйте [OpenCV](https://github.com/opencv/opencv/releases) и [OpenCV-contrib](https://github.com/opencv/opencv_contrib/tags) (версии должны совпадать)
 
-Download and extract matching versions of OpenCV and OpenCV-contrib from the [links above](README.md#prerequisites).
-
-### CMake configuration
+### CMake конфигурация
 
 #### Preparation
 
