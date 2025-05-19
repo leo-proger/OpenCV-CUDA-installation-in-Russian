@@ -38,8 +38,6 @@ P.P.P.S: в конце 2024 года все работает (с CUDA 11.6, Wind
 
 ## Пошаговый процесс установки
 
-### Требуемое ПО
-
 ### Python, NumPy и pip
 
 Установите Python 3.x любым удобным для вас способом ([оф. сайт](https://www.python.org/downloads/), [Anaconda](https://www.anaconda.com/download/success), магазин Майкрософт или создать виртуальное окружение).
