@@ -8,11 +8,9 @@
   
 ## Источники и ссылки по устранению неполадок  
   
-Данная инструкция основана на  
-[статье](https://web.archive.org/web/20240728214837/https://thinkinfi.com/install-opencv-gpu-with-cuda-for-windows-10/)  
-от Anindya - пошаговая сборка с помощью CMake GUI, а также на  
-[статье](https://www.jamesbowley.co.uk/qmd/opencv_cuda_python_windows.html) от James Bowley - сборка с помощью  
-консоли CMake и решение некоторых проблем.  
+Данная инструкция основана на:
+- [статье](https://web.archive.org/web/20240728214837/https://thinkinfi.com/install-opencv-gpu-with-cuda-for-windows-10/) от Anindya - пошаговая сборка с помощью CMake GUI
+- [статье](https://www.jamesbowley.co.uk/qmd/opencv_cuda_python_windows.html) от James Bowley - сборка с помощью консоли CMake и решение некоторых проблем.
   
 ### Ошибка ImportError  
   
