@@ -22,7 +22,7 @@
 ImportError: DLL load failed while importing cv2: The specified module could not be found.  
 ```  
   
-Этот случай подробно описан в разделе по устранению неполадок и почти полностью основан на [этом](https://github.com/opencv/opencv/issues/19972) большом GitHub issue.
+Этот случай подробно описан в разделе по [устранению неполадок](#Проверка-установки-и-устранение-неполадок) и почти полностью основан на [этом](https://github.com/opencv/opencv/issues/19972) большом GitHub issue.
 В общем, вся твоя сборка, вероятно, полностью удачна, это просто может быть Python не смог прочесть переменные  
 окружения.
 
